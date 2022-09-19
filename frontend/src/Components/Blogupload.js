@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import './Blogupload.css'
 import { useNavigate } from 'react-router-dom'
 export default function Blogupload() {
@@ -53,25 +52,20 @@ export default function Blogupload() {
         formData.append('category',category)
         formData.append('authorName',user)
 
-
-        const config ={
-            headers:{
-                "Content-Type":"multipart/form-data",
-                Accept: 'application/json',
-                authorization: localStorage.getItem('token')
-                },
-        }
-
-        const url ='http://localhost:4000/addBlog';
-
-        axios.post(url,formData,config).then((res)=>{
+        let data = await fetch('/addBlog',{
+          mode:'cors',
+          method:"POST",
+          headers:{
+            authorization: localStorage.getItem('token')
+            },
+          body:formData
+        });
+        if(data.ok){
           setSuccess('Done , You blog is posted')
-        }).catch((err)=>{
+        }
+        else{
           setError(error)
-            console.log(err.response)
-        })
-
-        // let data = await fetch('/addBlog', config)
+        }
       }
     }
   
@@ -80,9 +74,8 @@ export default function Blogupload() {
     <div className='postBlog-container'>
     <div className='blog-form'>
       <form method='post' onSubmit={upload}>
-      {error && <div id='post-error'><div >{error}</div></div> }
+      {error && <div id='error'><div >{error}</div></div> }
       {success && <div id='post-success'><div id='success-msg'><span>{success}</span> <button onClick={closeSuccess}>Ok</button></div></div> }
-
 
       <h1>Add new Blog</h1>
       <input type="text" name="title" id="title" placeholder='Title' onChange={e=>{

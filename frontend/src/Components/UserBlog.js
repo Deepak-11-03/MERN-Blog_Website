@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React,{useEffect,useState} from 'react'
 import Loader from './Loader';
 import { AiFillDelete,AiFillEdit } from "react-icons/ai";
@@ -6,8 +5,6 @@ import ScrollButton from './ScrollButton';
 import './Home.css'
 
 export default function UserBlog() {
-
-  // const navigate =useNavigate()
    
     const [userBlog, setUserBlogs] = useState([]);
     const[loading ,setLoading]=useState(false)
@@ -15,7 +12,7 @@ export default function UserBlog() {
     const [success ,setSuccess]=useState(false)
     
     useEffect(() => {
-        userBlogs()
+        userBlogs();
     },[]);
     
     const removeSuccess =()=>{
@@ -23,16 +20,14 @@ export default function UserBlog() {
         setSuccess(false)
       }, 2000);
     }
-
-    const config ={
-        headers:{
-            authorization: localStorage.getItem('token')
-            },
-    }
   
     const userBlogs = async () => {
       try {
-        let data = await fetch('/blogs',config)
+        let data = await fetch('/blogs',{
+          headers:{
+            authorization: localStorage.getItem('token')
+            }
+        })
         data= await data.json()
         if(data){
         setLoading(true)
@@ -45,6 +40,7 @@ export default function UserBlog() {
         console.log(err);
       }
     }
+
 
     // const updateBlog =async(id)=>{
     //   try {
@@ -64,7 +60,6 @@ export default function UserBlog() {
           },
 
        })
-      //  data =await data
         if(data){
           userBlogs()
           setSuccess('Successfully Deleted')
@@ -83,12 +78,11 @@ export default function UserBlog() {
      <h1>My Blogs</h1>
       <hr />
       {error?<div id='error'><span>{error}</span>  </div>:''}
-      {success?<div id='dlt-success'><span>{success}</span>  </div>:''}
+      {success ?<div id='dlt-success'><span>Successfully Deleted</span> </div> :""}
      <div className='allBlogs'>
-     {/* <Loader/> */}
-     {loading ? userBlog.map((item) => 
-      <div className="blog-container" key={item._id}>
+     {loading ? <> {userBlog.map((item) => 
 
+      <div className="blog-container" key={item._id}>
       <div  style={{fontSize: "1.3rem"}}>
       <AiFillDelete title='Delete' onClick={()=>blogDelete(item._id)} style={{float: "right", padding:'.5rem' , cursor:"pointer",color:'#e73535'}}/>
       <AiFillEdit title='Edit' style={{float: "right" , padding:'.5rem' , cursor:"pointer"}}/>
@@ -104,8 +98,7 @@ export default function UserBlog() {
                     <span style={{float: "right"}}>{item.publishedAt}</span>
                     </div>
                     </div>
-                ) : <Loader/>}    
-                {userBlog.length===0 && <h1>Please Upload Blog to see here</h1>}    
+                )} </> : <Loader/>}    
      </div>
      <ScrollButton/>
     </div>

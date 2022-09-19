@@ -53,11 +53,12 @@
     border-radius: 50%;
 }
 #dlt-success{
-    width: 30rem;
+    width: 21em;
     height: 1.7rem;
     padding: 1rem;
     position: relative;
-    background: lightgreen;
+    color: #006a21;
+    background-color: lightgreen;
     text-align: center;
     margin: auto;
     border-radius: 15px;

@@ -44,7 +44,7 @@ export default function Login() {
       }
 
       else{
-      let data= await fetch( "http://localhost:4000/login",{
+      let data= await fetch( "/login",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default function Login() {
         if(data.token){
           localStorage.setItem("user", data.user)
           localStorage.setItem("token", data.token)
-          navigate('/dashboard')
+          navigate('/')
         }
         else{
           setError(data.message)

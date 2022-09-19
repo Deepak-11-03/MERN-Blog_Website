@@ -1,14 +1,14 @@
 import React,{useEffect,useState} from 'react'
 // import { AiFillDelete,AiFillEdit } from "react-icons/ai";
-// import Loader from './Loader'
+import Loader from './Loader'
 import ScrollButton from './ScrollButton'
 import './Home.css'
-import axios from 'axios';
+// import axios from 'axios';
 
 export default function Home() {
    
   const [blogs, setBlogs] = useState([]);
-  // const[loading ,setLoading]=useState(false)
+  const[loading ,setLoading]=useState(false)
 
   useEffect(() => {
     getBlogs();
@@ -18,7 +18,7 @@ export default function Home() {
     try {
       let data = await fetch('/getBlogs')
       data = await data.json();
-      // setLoading(true)
+      setLoading(true)
       setBlogs(data) 
     } catch (err) {
       console.log(err);
@@ -31,8 +31,8 @@ export default function Home() {
      {/* <h1>All Blogs</h1>
       <hr /> */}
      <div className='allBlogs'>
-     {/* <Loader/> */}
-     { blogs.map((item) => 
+     {loading ? <>
+      {blogs.map((item) => 
       <div className="blog-container" key={item._id}>
       <div id='blog-image'><img src={item.image} alt="" /></div>
                     <h4>Title : {item.title}</h4>
@@ -43,8 +43,7 @@ export default function Home() {
                     <h4>Author :  {item.authorName}</h4>
                     </div>
                     </div>
-                ) }       
-              
+                )}</>: <Loader/>}
      </div>
      <ScrollButton/>
     </div>
