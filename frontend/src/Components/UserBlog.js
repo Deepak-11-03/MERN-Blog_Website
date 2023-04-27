@@ -1,11 +1,11 @@
 import React,{useEffect,useState} from 'react'
-import Loader from './Loader';
+import Loader from './misc/Loader';
 import { AiFillDelete,AiFillEdit } from "react-icons/ai";
-import ScrollButton from './ScrollButton';
+import { useNavigate } from 'react-router-dom';
 import './Home.css'
 
 export default function UserBlog() {
-   
+   const navigate = useNavigate()
     const [userBlog, setUserBlogs] = useState([]);
     const[loading ,setLoading]=useState(false)
     const [error,setError]=useState(false)
@@ -21,9 +21,17 @@ export default function UserBlog() {
       }, 2000);
     }
   
+    const details = (id)=>{
+      navigate(`/blogs/details/${id}`)
+    }
+
+    const blogUpdate =(id)=>{
+      navigate(`/blogs/update/${id}`)
+    }
+
     const userBlogs = async () => {
       try {
-        let data = await fetch('/blogs',{
+        let data = await fetch('https://blogenix.onrender.com/blogs',{
           headers:{
             authorization: localStorage.getItem('token')
             }
@@ -53,7 +61,7 @@ export default function UserBlog() {
 
     const blogDelete = async(id)=>{
       try {
-       let data = await fetch(`/blogs/${id}`,{
+       let data = await fetch(`http://localhost:4000/blogs/${id}`,{
         method:"DELETE",
         headers:{
           authorization: localStorage.getItem('token')
@@ -75,32 +83,33 @@ export default function UserBlog() {
    
   return (
       <div className='homePage'>
-     <h1>My Blogs</h1>
       <hr />
       {error?<div id='error'><span>{error}</span>  </div>:''}
       {success ?<div id='dlt-success'><span>Successfully Deleted</span> </div> :""}
      <div className='allBlogs'>
+     {userBlog.length === 0 && <h3>No blog uploded</h3> }
      {loading ? <> {userBlog.map((item) => 
 
-      <div className="blog-container" key={item._id}>
+      <div className="blog-container" key={item._id}  >
       <div  style={{fontSize: "1.3rem"}}>
       <AiFillDelete title='Delete' onClick={()=>blogDelete(item._id)} style={{float: "right", padding:'.5rem' , cursor:"pointer",color:'#e73535'}}/>
-      <AiFillEdit title='Edit' style={{float: "right" , padding:'.5rem' , cursor:"pointer"}}/>
+      <AiFillEdit title='Edit' onClick={()=>blogUpdate(item._id)} style={{float: "right" , padding:'.5rem' , cursor:"pointer"}}/>
       </div>
 
-      <div id='blog-image'><img src={item.image} alt="" /></div>
-                    <h4>Title : &nbsp;{item.title}</h4>
-                    <h4>Category :&nbsp; {item.category}</h4><br />
+      <div id='blog-image' onClick={()=>details(item._id)} ><img src={item.image} alt=""  /></div>
+      <br />
+      <div className="contentContainer" onClick={()=>details(item._id)}>
+                    <h4>Title : {item.title}</h4>
+                    <h4>Category : {item.category}</h4>
                     <div id='description'>
-                    <p ><b>Description :</b>&nbsp; {item.description}</p>
+                    <p ><b>Description :</b> {item.description}</p>
                     <br /><br />
-                    <span style={{fontWeight:700}}>Author :  {item.authorName}</span> 
-                    <span style={{float: "right"}}>{item.publishedAt}</span>
+                    <h4>Author :  {item.authorName}</h4>
+                    </div>
                     </div>
                     </div>
                 )} </> : <Loader/>}    
      </div>
-     <ScrollButton/>
     </div>
   )
 }

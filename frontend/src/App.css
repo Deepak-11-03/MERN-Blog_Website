@@ -5,3 +5,9 @@
 body{
   background-color: #f7f7f7;
 }
+.App{
+  height: 100vh;
+}
+html,body{
+  overflow-x: hidden;
+}

@@ -2,28 +2,46 @@
     text-align: center;
     padding: 1rem;
 }
+.homePage{
+    display: flex;
+    flex-direction: column;
+}
 .allBlogs{
     width: 100%;
     min-height: 95vh;
     max-height: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 .blog-container{
-    max-width: 47rem;
-    width: 90%;
-    height: 36rem;
+    max-width: 15rem;
+    height: 20rem;
     display: flex;
     margin: 2rem;
-    gap: 1rem;
+    /* gap: 1rem; */
     padding: 1rem;
     background-color: rgb(155, 221, 221);
     box-shadow: 5px 5px 18px 5px #888888;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     border-radius: 10px;
+    cursor: pointer;
     
+}
+.blog-container .contentContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 50%;
+    overflow-x: hidden;
+    font-size: small;
+    justify-content: flex-end;
+} 
+.blog-container .contentContainer p{
+    overflow: hidden;
+    height: 3rem;
 }
 .blog-container #description{
     height: 30%;
@@ -33,14 +51,14 @@
 .blog-container #blog-image{
     position: relative;
     width: 100%;
-    height: 22rem;
+    height: 12rem;
 }
 .blog-container #blog-image img{
     position: relative;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position:left;
+    object-fit: contain;
+    object-position: center;
    
 }
 .homePage button{
@@ -62,4 +80,43 @@
     text-align: center;
     margin: auto;
     border-radius: 15px;
+}
+
+@media screen and (max-width:700px){
+    .allBlogs {
+        margin-top: 4rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    .blog-container {
+        margin: 15px;
+        padding: 10px;
+        max-width: 85%;
+        height: 9rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 10px;
+        align-items: center;
+    }
+    .blog-container #blog-image {
+        width: 10rem;
+    }
+    .blog-container #blog-image img {
+        width: 7rem;
+    }
+    .blog-container .contentContainer {
+        display: flex;
+    flex-direction: column;
+    gap: 7px;
+    height: 100%;
+    font-size: 12px;
+    justify-content: center;
+    }
+    .blog-container .contentContainer p {
+        overflow: hidden;
+        height: 3rem;
+    }
 }

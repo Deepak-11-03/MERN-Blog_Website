@@ -1,14 +1,13 @@
 import React,{useEffect,useState} from 'react'
-// import { AiFillDelete,AiFillEdit } from "react-icons/ai";
-import Loader from './Loader'
-import ScrollButton from './ScrollButton'
+import Loader from './misc/Loader'
 import './Home.css'
-// import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
    
   const [blogs, setBlogs] = useState([]);
   const[loading ,setLoading]=useState(false)
+  const navigate =useNavigate();
 
   useEffect(() => {
     getBlogs();
@@ -16,14 +15,18 @@ export default function Home() {
 
   const getBlogs = async () => {
     try {
-      let data = await fetch('/getBlogs')
+      let data = await fetch('https://blogenix.onrender.com/getBlogs')
       data = await data.json();
       setLoading(true)
       setBlogs(data) 
     } catch (err) {
-      console.log(err);
+      alert(err)
     }
   };
+
+  const details = (id)=>{
+    navigate(`/blogs/details/${id}`)
+  }
 
 
   return (
@@ -33,19 +36,22 @@ export default function Home() {
      <div className='allBlogs'>
      {loading ? <>
       {blogs.map((item) => 
-      <div className="blog-container" key={item._id}>
+      <div className="blog-container" key={item._id} onClick={()=>details(item._id)}>
       <div id='blog-image'><img src={item.image} alt="" /></div>
+      <br />
+                    <div className="contentContainer">
                     <h4>Title : {item.title}</h4>
-                    <h4>Category : {item.category}</h4><br />
+                    <h4>Category : {item.category}</h4>
                     <div id='description'>
                     <p ><b>Description :</b> {item.description}</p>
                     <br /><br />
                     <h4>Author :  {item.authorName}</h4>
                     </div>
                     </div>
+                    </div>
                 )}</>: <Loader/>}
+                {blogs.length === 0 && <h4>No blog uploaded yet</h4> }
      </div>
-     <ScrollButton/>
     </div>
   )
 }

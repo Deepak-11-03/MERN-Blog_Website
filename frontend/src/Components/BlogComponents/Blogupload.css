@@ -1,10 +1,3 @@
-/* .postBlog-container{
-    width: 100%;
-    height: 90.7vh;
-    background-color: bisque;
-    text-align: center;
-   
-} */
 .blog-form{
     width: 100%;
     display: grid;
@@ -13,19 +6,19 @@
   
 }
 .blog-form form{
-    width: 85%;
-    margin-top: 1rem;
+    width: 80%;
     height: fit-content;
+    margin: 1rem 0;
+    padding: 1rem;
+    padding-bottom: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 1.5rem;
-    padding-bottom: 2rem;
-    background-color: whitesmoke;
-    box-shadow: 5px 5px 18px 5px #888888;
     flex-wrap: nowrap;
     align-items: center;
+    gap: 8px;
     border-radius: 15px;
+    background-color: whitesmoke;
+    box-shadow: 5px 5px 18px 5px #888888;
 }
 .blog-form #post-error{
     position: absolute;
@@ -43,19 +36,31 @@
     
 }
 .blog-form #success-msg{
-    height: 20rem;
-    margin: auto;
-    margin-top: 2rem;
-    background: white;
-    border: 1px solid blue;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: nowrap;
+  height: 20rem;
+  max-width: 32rem;
+  position: relative;
+  margin: auto;
+  margin-top: 2rem;
+  background: white;
+  border: 1px solid blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: nowrap;
+  z-index: 15;
+}
+.blog-form .input{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 25px;
+  row-gap: 10px;
 }
 .blog-form  #title, #category{
-    width: 70%;
+    width: 18rem;
     padding: 0.5rem;
     outline: none;
     font-size: 1.1rem;
@@ -68,25 +73,22 @@
     min-height: 6rem;
     overflow-y: scroll;
     padding: .5rem;
-    word-spacing: -6px;
     width: 80%;
     outline: none;
     border: 1px solid black;
+    font-family: 'Roboto', sans-serif;
   }
   .image-preview-box{
-    margin: auto;
-    width: 80%;
-    height: 19rem;
-    border: 1px solid black;
-    background-color: aliceblue;
-    overflow-y:auto;
-    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 15rem;
   }
   .image-preview-box img{
+    position: relative;
     width: 100%;
-    margin: auto;
-    display: block;
-    object-fit:contain;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
   }
   .blog-form #post-blog{
     width: 80%;
@@ -96,6 +98,7 @@
     color: white;
     font-size: 1rem;
     border: none;
+    cursor: pointer;
   }
   #success-msg button{
     width: 7rem;
@@ -103,7 +106,14 @@
     background-color: #356eff;
     color: white;
     font-size: 1rem;
+    cursor: pointer;
   }
   #success-msg span{
     font-size: 1.5rem;
+  }
+
+  @media screen and (max-width:700px){
+    .blog-form form{
+      margin-top: 6rem;
+    }
   }

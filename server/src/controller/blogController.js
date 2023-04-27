@@ -1,22 +1,14 @@
 // const aws =require('aws-sdk')
-const file =require('../aws.js')
 const blogModel = require('../models/blogModel')
-const userModel = require('../models/userModel.js')
 
 // console.log(abc.)
 
 module.exports.addBlog = async function (req, res) {
     try {
         let data =req.body
-        let{title,category,description,authorName}=data
-
-        let files = req.files
-        if(files && files.length>0){
-            let uploadedFileURL = await file.uploadFile(files[0])
-            files=uploadedFileURL
-        }    
+        let{title,category,description,authorName,image}=data
         let userId =req.userid
-        let info={title,category,description,image:files,authorName,userId:userId}
+        let info={title,category,description,image:image,authorName,userId:userId}
         const details= await blogModel.create(info)
         return res.status(201).send(details)   
     } catch (err) {
@@ -29,7 +21,17 @@ module.exports.getBlogs=async(req,res)=>{
         const allBlogs=await blogModel.find({isDeleted:false}).sort({publishedAt:1})
         return res.status(200).send(allBlogs)
     } catch (error) {
-        return res.status(500).send(error)
+        return res.status(500).send(error.message)
+    }
+}
+
+module.exports.getBlogById=async(req,res)=>{
+    try {
+        let blogId= req.params.id;
+        const blogDetails = await blogModel.findById(blogId)
+        return res.status(200).send(blogDetails)
+    } catch (error) {
+        return res.status(500).send(error.message)
     }
 }
 
@@ -38,6 +40,17 @@ module.exports.userBlogs =async(req,res)=>{
         let userId =req.userid
         const blogs =await blogModel.find({userId:userId ,isDeleted:false}).sort({publishedAt:1})
         return res.status(200).send(blogs)
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+}
+module.exports.updateBlog=async(req,res)=>{
+    try {
+        let userId =req.userid;
+        let blogId =req.params.id
+        let updatedBlog =await blogModel.findOneAndUpdate({userId:userId,_id:blogId},req.body,{new:true} )
+        return res.status(200).send({msg:"Done",updatedBlog})
+
     } catch (error) {
         return res.status(500).send(error)
     }

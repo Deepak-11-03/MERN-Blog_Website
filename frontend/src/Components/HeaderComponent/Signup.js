@@ -54,7 +54,7 @@ const handleInput =(e)=>{
           closeError()
         }
         else{
-            let data= await fetch( "/register",{
+            let data= await fetch( "https://blogenix.onrender.com/register",{
                 mode:'cors',
                 method: "POST",
                 headers: {

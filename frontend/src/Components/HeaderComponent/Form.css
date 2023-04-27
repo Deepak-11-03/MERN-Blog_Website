@@ -44,15 +44,16 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
 }
 #error{
-    color: aliceblue;
-    position: absolute;
-    top: 14%;
-    background: #282828;
+    width: 20rem;
     height: 1.6rem;
     padding: 0.6rem;
-    width: 20rem;
+    position: fixed;
+    top: 8%;
+    background: #ecbaba;
+    color: rgb(212, 0, 0);
     border-radius: 8px;
     font-size: 1rem;
+    z-index: 16;
 }
 #input-error{
     color: red;
